@@ -47,6 +47,7 @@ async function run() {
     await client.connect();
 
     const usersCollection = client.db("sportsAcademy").collection("users");
+    const instructorsCollection = client.db("sportsAcademy").collection("instructors");
 
     //Jwt setup
     app.post('/jwt', (req, res) => {
@@ -58,7 +59,7 @@ async function run() {
 
     //UserCollection
 
-    app.post('/users', async (req, res) => {
+    app.post('/users',verifyJWT, async (req, res) => {
       const user = req.body;
       const query = { email: user.email }
       const existingUser = await usersCollection.findOne(query);
@@ -68,6 +69,13 @@ async function run() {
       }
 
       const result = await usersCollection.insertOne(user);
+      res.send(result);
+    });
+
+    //Instructor
+
+    app.get('/instructors', async (req, res) => {
+      const result = await instructorsCollection.find().toArray();
       res.send(result);
     });
 
