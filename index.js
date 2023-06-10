@@ -47,7 +47,10 @@ async function run() {
     await client.connect();
 
     const usersCollection = client.db("sportsAcademy").collection("users");
+
     const instructorsCollection = client.db("sportsAcademy").collection("instructors");
+
+    const classCollection = client.db("sportsAcademy").collection("classes");
 
     //Jwt setup
     app.post('/jwt', (req, res) => {
@@ -76,6 +79,12 @@ async function run() {
 
     app.get('/instructors', async (req, res) => {
       const result = await instructorsCollection.find().toArray();
+      res.send(result);
+    });
+
+    //Classes 
+    app.get('/class', async (req, res) => {
+      const result = await classCollection.find().toArray();
       res.send(result);
     });
 
