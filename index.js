@@ -49,6 +49,7 @@ async function run() {
     const usersCollection = client.db("sportsAcademy").collection("users");
 
     const instructorsCollection = client.db("sportsAcademy").collection("instructors");
+    const itemCollection= client.db("sportsAcademy").collection("items");
 
     const classCollection = client.db("sportsAcademy").collection("classes");
 
@@ -85,6 +86,17 @@ async function run() {
     //Classes 
     app.get('/class', async (req, res) => {
       const result = await classCollection.find().toArray();
+      res.send(result);
+    });
+//post items
+    app.post('/items', async (req, res) => {
+      const item = req.body;
+      const result = await itemCollection.insertOne(item);
+      res.send(result);
+    })
+
+    app.get('/items', async (req, res) => {
+      const result = await itemCollection.find().toArray();
       res.send(result);
     });
 
