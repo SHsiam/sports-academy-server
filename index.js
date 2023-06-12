@@ -158,6 +158,12 @@ async function run() {
       const result = await classCollection.find().toArray();
       res.send(result);
     });
+
+      app.post('/class', async (req, res) => {
+      const item = req.body;
+      const result = await classCollection.insertOne(item);
+      res.send(result);
+    })
 //Items
     app.post('/items', async (req, res) => {
       const item = req.body;
@@ -193,7 +199,7 @@ app.post('/create-payment-intent',verifyJWT, async (req, res) => {
 })
 
 
-// payment related api
+// payment 
 app.post('/payments', verifyJWT, async (req, res) => {
   const payment = req.body;
   const insertResult = await paymentCollection.insertOne(payment);
